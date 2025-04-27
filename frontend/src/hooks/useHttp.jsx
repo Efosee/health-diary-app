@@ -246,11 +246,12 @@ const useHttp = () => {
 		}
 	}
 
-	async function getMetrics(startDate, endDate, metrics, headers) {
+	async function getMetrics(startDate, endDate, metrics, entry_type="all", headers) {
 		const params = new URLSearchParams({startDate, endDate, params});
 		metrics.forEach(metric => {
 			params.append("metrics", metric)
 		});
+		params.append("entry_type", entry_type);
 		const endpoint = "/analystics/metrics?" + params.toString()
 	}
 
