@@ -1,0 +1,19 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  // 💻 Ноутбуки и меньше (≤ 1024px)
+  @media (max-width: 1024px) {
+    max-width: 960px;
+  }
+
+  // 📱 Планшеты и меньше (≤ 768px)
+  @media (max-width: 768px) {
+    max-width: 720px;
+  }
+
+  // 📱 Телефоны и меньше (≤ 480px)
+  @media (max-width: 480px) {
+    max-width: 100%;
+  }
+}
