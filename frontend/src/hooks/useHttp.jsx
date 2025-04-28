@@ -246,13 +246,125 @@ const useHttp = () => {
 		}
 	}
 
-	async function getMetrics(startDate, endDate, metrics, entry_type="all", headers) {
-		const params = new URLSearchParams({startDate, endDate, params});
+	/* 
+	ВОЗМОЖНЫЕ МЕТРИКИ (metrics - array): 
+	wellbeing_score, training_intensity, has_injury, injury_location, weight, height, 
+	bmi, blood_pressure_sys, blood_pressure_dia, food_score, temperature, pulse, 
+	sleep_quality, sleep_hours, blood_sugar, personal_notes, medications.
+
+	(НО для getAdminAggregatedMetrics нельзя использовать: injury_location, personal_notes, medications,
+	а также не рекомендуется has_injury)
+
+	ФОРМАТ ДАТЫ YYYY-MM-DD пример:
+	startDate = "2025-04-01", endDate = "2025-04-30"
+
+	ВОЗМОЖНЫЕ ВАРИАНТЫ entry_type: "all", "personal", "event"
+
+	ФОРМАТ ОТВЕТА ДЛЯ getMetrics:
+	{
+	"personal": [
+		{
+			"date": "2025-04-27T21:46:00",
+			"entry_timing": "after",
+			"event_id": null,
+			"metrics": {
+				"wellbeing_score": 5,
+				"training_intensity": 5,
+				"personal_notes": null
+			}
+		}
+	],
+	"event": [
+		{
+			"date": "2025-04-22T23:32:00",
+			"entry_timing": "before",
+			"event_id": 1,
+			"metrics": {
+				"wellbeing_score": 6,
+				"personal_notes": null
+			}
+		},
+		{
+			"date": "2025-04-07T17:18:05.088000",
+			"entry_timing": "rest",
+			"event_id": 1,
+			"metrics": {
+				"wellbeing_score": 5,
+				"personal_notes": "string"
+			}
+		}
+	]
+}
+	ФОРМАТ ОТВЕТА ДЛЯ getAdminAggregatedMetrics (медианные знаения по дням для всех пользователей):
+	{
+		"2025-04-27": {
+		"wellbeing_score": 5,
+		"weight": 67,
+		"sleep_hours": 7
+		},
+		"2025-04-26": {
+		"wellbeing_score": 5.5,
+		"weight": 67,
+		"sleep_hours": 7
+		} и так далее...
+	}
+	ФОРМАТ ОТВЕТА ДЛЯ getAdminInjuriesByDay (сколько было среди всех пользователей по дням):
+	{
+	"2025-04-27": 1,
+	"2025-04-07": 2
+	}
+	*/
+	async function getMetrics(startDate, endDate, metrics, entry_type = "all", headers) {
+		const params = new URLSearchParams({ startDate, endDate });
 		metrics.forEach(metric => {
 			params.append("metrics", metric)
 		});
 		params.append("entry_type", entry_type);
 		const endpoint = "/analystics/metrics?" + params.toString()
+		try {
+			const userMetrics = await http.apiGet(endpoint, headers);
+			return userMetrics;
+		} catch (error) {
+			console.log(error.message);
+			if (error.status === 401) {
+				logout();
+			}
+			throw error;
+		}
+	}
+
+	async function getAdminAggregatedMetrics(startDate, endDate, metrics, entry_type = "all", headers) {
+		const params = new URLSearchParams({ startDate, endDate });
+		metrics.forEach(metric => {
+			params.append("metrics", metric)
+		});
+		params.append("entry_type", entry_type);
+		const endpoint = "/analytics/admin_daily_aggregated?" + params.toString();
+		try {
+			const allUsersAggregatedMetrics = await http.apiGet(endpoint, headers);
+			return allUsersAggregatedMetrics;
+		} catch (error) {
+			console.log(error.message);
+			if (error.status === 401) {
+				logout();
+			}
+			throw error;
+		}
+	}
+
+	async function getAdminInjuriesByDay(startDate, endDate, entry_type = "all", headers) {
+		const params = new URLSearchParams({ startDate, endDate, entry_type });
+		const endpoint = "/analystics/admin_injuries_by_day?" + params.toString();
+		try {
+			const allUsersAggregatedMetrics = await http.apiGet(endpoint, headers);
+			return allUsersAggregatedMetrics;
+		} catch (error) {
+			console.log(error.message);
+			if (error.status === 401) {
+				logout();
+			}
+			throw error;
+		}
 	}
 
 	return {
@@ -260,7 +372,7 @@ const useHttp = () => {
 		getPersonalTraining, getAllPersonalTraining, postPersonalTraining, putPersonalTraining,
 		getAllEventTraining, getEventTraining, postEventTraining, putEventTraining,
 		getSportUpcomingEvents, postSportEvent, getSportCurrentEvents, getSportPastEvents,
-
+		getMetrics, getAdminAggregatedMetrics, getAdminInjuriesByDay
 	}
 }
 
