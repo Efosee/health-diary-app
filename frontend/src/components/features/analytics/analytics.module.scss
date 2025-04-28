@@ -1,0 +1,15 @@
+@use '../../../styles/variables.scss';
+
+.analyticsContainer {
+  background-color: var(--bg-color);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.13);
+}
+
+.chartContainer {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+}

@@ -10,6 +10,7 @@ import HistoryPage from './pages/HistoryPage';
 import NotificationsPage from './pages/NotificationsPage';
 import Nav from './components/features/nav/Nav';
 import AuthPage from './pages/AuthPage';
+import AnalyticsPage from './pages/AnalyticsPage';
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/features/Route/PrivateRoute';
 
@@ -25,6 +26,7 @@ function App() {
 					<Route element={<PrivateRoute />}>
 						<Route path="/" element={<Nav />}>
 							<Route index element={<PersonalDiaryPage />} /> {/* index для корневого пути */}
+							<Route path='analytics' element={<AnalyticsPage />} />
 							<Route path="event" element={<EventDiaryPage />} />
 							<Route path="profile" element={<ProfilePage />} />
 							<Route path="history" element={<HistoryPage />} />

@@ -39,7 +39,7 @@ const Nav = () => {
 							</NavLink>
 						</li>
 						<li className={styles.diaryLi}>
-							<NavLink to="/analystic" className={({ isActive }) => (isActive ? styles.diary_active : styles.diary)}>
+							<NavLink to="/analytics" className={({ isActive }) => (isActive ? styles.diary_active : styles.diary)}>
 								АНАЛИТИКА
 							</NavLink>
 						</li>

@@ -314,13 +314,13 @@ const useHttp = () => {
 	"2025-04-07": 2
 	}
 	*/
-	async function getMetrics(startDate, endDate, metrics, entry_type = "all", headers) {
-		const params = new URLSearchParams({ startDate, endDate });
+	const getMetrics = useCallback(async (startDate, endDate, metrics, entry_type = "all", headers) => {
+		const params = new URLSearchParams({ start_date: startDate, end_date: endDate });
 		metrics.forEach(metric => {
 			params.append("metrics", metric)
 		});
 		params.append("entry_type", entry_type);
-		const endpoint = "/analystics/metrics?" + params.toString()
+		const endpoint = "/analytics/metrics?" + params.toString()
 		try {
 			const userMetrics = await http.apiGet(endpoint, headers);
 			return userMetrics;
@@ -331,10 +331,10 @@ const useHttp = () => {
 			}
 			throw error;
 		}
-	}
+	}, []);
 
-	async function getAdminAggregatedMetrics(startDate, endDate, metrics, entry_type = "all", headers) {
-		const params = new URLSearchParams({ startDate, endDate });
+	const getAdminAggregatedMetrics = useCallback(async (startDate, endDate, metrics, entry_type = "all", headers) => {
+		const params = new URLSearchParams({ start_date: startDate, end_date: endDate });
 		metrics.forEach(metric => {
 			params.append("metrics", metric)
 		});
@@ -350,11 +350,11 @@ const useHttp = () => {
 			}
 			throw error;
 		}
-	}
+	}, []);
 
-	async function getAdminInjuriesByDay(startDate, endDate, entry_type = "all", headers) {
-		const params = new URLSearchParams({ startDate, endDate, entry_type });
-		const endpoint = "/analystics/admin_injuries_by_day?" + params.toString();
+	const getAdminInjuriesByDay = useCallback(async (startDate, endDate, entry_type = "all", headers) => {
+		const params = new URLSearchParams({ start_date: startDate, end_date: endDate, entry_type });
+		const endpoint = "/analytics/admin_injuries_by_day?" + params.toString();
 		try {
 			const allUsersAggregatedMetrics = await http.apiGet(endpoint, headers);
 			return allUsersAggregatedMetrics;
@@ -365,7 +365,7 @@ const useHttp = () => {
 			}
 			throw error;
 		}
-	}
+	}, []);
 
 	return {
 		getUser, putUser,
