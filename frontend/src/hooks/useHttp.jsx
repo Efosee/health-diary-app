@@ -7,7 +7,7 @@ const useHttp = () => {
 	const { logout } = useAuth();
 	const { trainingId } = useParams();
 
-	async function getUser(headers) {
+	const getUser = useCallback(async (headers) => {
 		try {
 			const userData = await http.apiGet("/users/me", headers);
 			return userData;
@@ -18,10 +18,11 @@ const useHttp = () => {
 			}
 			throw error;
 		}
-	}
+	}, []);
 
-	async function putUser(body, headers) {
+	const putUser = useCallback(async (body, headers) => {
 		body = prepareDataForApi(body);
+		console.log(body);
 
 		try {
 			const userData = await http.apiPut("/users/me", body, headers);
@@ -33,7 +34,7 @@ const useHttp = () => {
 			}
 			throw error;
 		}
-	}
+	}, []);
 
 	async function getHealth(headers) {
 		try {

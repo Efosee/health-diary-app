@@ -33,8 +33,8 @@ const PersonalDiary = () => {
 	const handler = (e) => {
 		e.preventDefault();
 
-		const formData = new FormData(e.target)
-		const errors = diaryValidate(formData)
+		const formData = new FormData(e.target);
+		const errors = diaryValidate(formData);
 
 		if (Object.keys(errors).length) {
 			console.log(errors);
