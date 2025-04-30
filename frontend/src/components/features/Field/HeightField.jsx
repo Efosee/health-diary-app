@@ -1,5 +1,5 @@
 // HeightField.jsx
-import { useState, forwardRef, useImperativeHandle, memo } from 'react';
+import { useState, forwardRef, useImperativeHandle, memo, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 
 // Оборачиваем компонент в forwardRef
@@ -7,6 +7,10 @@ const HeightField = memo(forwardRef(({setHeight, height, ...props}, ref) => {
 	console.log("HeightField -> Рендер");
 	const [value, setValue] = useState(height || '');
 	const [error, setError] = useState('');
+
+	useEffect(() => {
+		setValue(height || "");
+	}, [height])
 
 	const validate = () => {
 		if (value && (isNaN(value) || Number(value) < 100 || Number(value) > 230)) {

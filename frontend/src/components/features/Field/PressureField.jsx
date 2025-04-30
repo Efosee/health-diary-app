@@ -1,5 +1,5 @@
 import { Box, TextField, Typography } from "@mui/material";
-import { useState, memo } from "react";
+import { useState, memo, useEffect } from "react";
 
 const PressureField = memo(({bloodPressureSys, bloodPressureDia, ...props}) => {
 	console.log("PressureField -> Рендер");
@@ -7,6 +7,11 @@ const PressureField = memo(({bloodPressureSys, bloodPressureDia, ...props}) => {
 	const [dia, setDia] = useState(bloodPressureDia || "");
 	const [sysError, setSysError] = useState("");
 	const [diaError, setDiaError] = useState("");
+
+	useEffect(() => {
+		setSys(bloodPressureSys || "");
+		setDia(bloodPressureDia || "");
+	}, [bloodPressureSys, bloodPressureDia])
 
 	const validateSys = (value) => {
 		const num = Number(value);

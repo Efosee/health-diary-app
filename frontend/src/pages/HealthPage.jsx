@@ -1,13 +1,12 @@
+import Health from "../components/features/health/Health";
+import ProfileLayout from "../components/layout/ProfileLayout"
 
 const HealthPage = () => {
 
 	return (
-		<>
-
-			<div className="diary">
-				Тут будет Ваше здоровье
-			</div>
-		</>
+		<ProfileLayout>
+			<Health />
+		</ProfileLayout>
 	)
 }
 

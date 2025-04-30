@@ -77,14 +77,14 @@ const Nav = () => {
 							<NavLink to="/profile" className={({ isActive }) => (isActive ? styles.active : '')}>
 								<PersonIcon sx={{ fontSize: getIconSize(), color: '#1976d2' }} />
 							</NavLink>
-							<NavLink to="/contacts" className={({ isActive }) => (isActive ? styles.active : '')}>
-								<TelegramIcon sx={{ fontSize: getIconSize(), color: '#1976d2' }} />
-							</NavLink>
 							<NavLink to="/health" className={({ isActive }) => (isActive ? styles.active : '')}>
 								<FavoriteIcon sx={{ fontSize: getIconSize(), color: 'red' }} />
 							</NavLink>
 							<NavLink to="/notifications" className={({ isActive }) => (isActive ? styles.active : '')}>
 								<NotificationsIcon sx={{ fontSize: getIconSize(), color: '#ff9800' }} />
+							</NavLink>
+							<NavLink to="/contacts" className={({ isActive }) => (isActive ? styles.active : '')}>
+								<TelegramIcon sx={{ fontSize: getIconSize(), color: '#1976d2' }} />
 							</NavLink>
 						</li>
 					</ul>

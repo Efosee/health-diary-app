@@ -1,12 +1,9 @@
+import Contacts from "../components/features/contacts/Contacts";
 
 const ContactsPage = () => {
 
 	return(
-		<>
-			<div className="contacts">
-				Тут будут контакты
-			</div>
-		</>
+		<Contacts />
 	)
 }
 

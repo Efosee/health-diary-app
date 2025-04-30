@@ -23,6 +23,7 @@ const Profile = memo(({ ...props }) => {
 			const userData = await putUser(formData);
 			console.log(userData);
 			setUser(userData);
+			setChangeFlag((flag) => !flag);
 
 		} catch (error) {
 			console.log(error)
@@ -33,13 +34,16 @@ const Profile = memo(({ ...props }) => {
 
 	return (
 		<Box component="form" onSubmit={changeUserData}
-		sx={{
-
-		}}>
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				gap: "35px"
+			}}>
 			<Typography sx={{
 				textAlign: "center",
 				display: "block",
-				mb: "30px"
+				mb: "30px",
+				pt: "20px"
 			}}>
 				{user?.is_admin ? "Профиль администрации" : "Профиль пользователя"}
 			</Typography>
@@ -56,7 +60,11 @@ const Profile = memo(({ ...props }) => {
 					Изменить
 				</Button>) :
 				(
-					<>
+					<Box sx={{
+						display: "flex",
+						justifyContent: "center",
+						gap: "20px"
+					}}>
 						<Button
 							onClick={() => setChangeFlag((flag) => !flag)}
 							variant="contained">
@@ -67,7 +75,7 @@ const Profile = memo(({ ...props }) => {
 							variant="contained">
 							Сохранить изменнения
 						</Button>
-					</>
+					</Box>
 				)
 			}
 		</Box >

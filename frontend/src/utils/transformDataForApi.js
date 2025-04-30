@@ -16,7 +16,7 @@ const prepareDataForApi = (formData) => {
     weight: "weight",
     sleepQuality: "sleep_quality",
     sleepHours: "sleep_hours",
-    bloodSugarField: "blood_sugar",
+    bloodSugar: "blood_sugar",
     medications: "medications",
     notes: "personal_notes",
     bmi: "bmi",

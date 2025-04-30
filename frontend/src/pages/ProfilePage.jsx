@@ -1,9 +1,11 @@
 import Profile from "../components/features/profile/Profile";
-
+import ProfileLayout from "../components/layout/ProfileLayout";
 const ProfilePage = () => {
 
 	return (
-		<Profile />
+		<ProfileLayout>
+			<Profile />
+		</ProfileLayout>
 	)
 }
 

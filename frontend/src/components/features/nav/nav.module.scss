@@ -8,8 +8,10 @@
 
 .list {
   display: flex;
+	width: 100%;
   justify-content: space-between;
   align-items: center;
+	gap: 10px;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -85,7 +87,7 @@
 }
 
 .diaryHeader {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   letter-spacing: 0.5px;
   margin: 0;
@@ -93,7 +95,7 @@
 }
 
 .subItem {
-  font-size: 14px;
+  font-size: 17px;
   
   &.active {
     font-weight: 500;
@@ -131,11 +133,11 @@
   }
   
   .diaryHeader {
-    font-size: 14px;
+    font-size: 16px;
   }
   
   .subItem {
-    font-size: 12px;
+    font-size: 14px;
   }
   
   .navGroup {
@@ -173,7 +175,7 @@
   }
   
   .diaryHeader {
-    font-size: 12px;
+    font-size: 13px;
   }
   
   .subItem {

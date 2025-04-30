@@ -36,7 +36,7 @@ const useHttp = () => {
 		}
 	}, []);
 
-	async function getHealth(headers) {
+	const getHealth = useCallback(async (headers) => {
 		try {
 			const healthData = await http.apiGet("/health/me", headers)
 			return healthData;
@@ -47,9 +47,9 @@ const useHttp = () => {
 			}
 			throw error;
 		}
-	}
+	}, [])
 
-	async function postHealth(body, headers) {
+	const postHealth = useCallback(async (body, headers) => {
 		body = prepareDataForApi(body);
 
 		try {
@@ -62,9 +62,10 @@ const useHttp = () => {
 			}
 			throw error;
 		}
-	}
+	}, [])
 
-	async function putHealth(body, headers) {
+	const putHealth = useCallback(async (body, headers) => {
+		console.log(body)
 		body = prepareDataForApi(body);
 
 		try {
@@ -77,7 +78,7 @@ const useHttp = () => {
 			}
 			throw error;
 		}
-	}
+	}, [])
 
 	const getAllPersonalTraining = useCallback(async (skip = 0, limit = 100, headers) => {
 		const endpoin = "/personal_training/?" + new URLSearchParams({ skip, limit }).toString();
@@ -370,6 +371,7 @@ const useHttp = () => {
 
 	return {
 		getUser, putUser,
+		getHealth, postHealth, putHealth,
 		getPersonalTraining, getAllPersonalTraining, postPersonalTraining, putPersonalTraining,
 		getAllEventTraining, getEventTraining, postEventTraining, putEventTraining,
 		getSportUpcomingEvents, postSportEvent, getSportCurrentEvents, getSportPastEvents,
