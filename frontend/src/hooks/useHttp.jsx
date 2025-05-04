@@ -194,8 +194,9 @@ const useHttp = () => {
 		}
 	}
 
-	async function postSportEvent(body, headers) {
-		body = prepareDataForApi(body);
+	const postSportEvent = useCallback(async (body, headers) => {
+		body = prepareDataForApi(body, true);
+		console.log(body)
 
 		try {
 			const sportEvent = await http.apiPost("/sport_events/", body, headers);
@@ -207,9 +208,9 @@ const useHttp = () => {
 			}
 			throw error;
 		}
-	}
+	}, []);
 
-	async function getSportUpcomingEvents(headers) {
+	const getSportUpcomingEvents = useCallback(async (headers) => {
 		try {
 			const upcomingEvents = await http.apiGet("/sport_events/upcoming", headers);
 			return upcomingEvents;
@@ -220,9 +221,9 @@ const useHttp = () => {
 			}
 			throw error;
 		}
-	}
+	}, []);
 
-	async function getSportCurrentEvents(headers) {
+	const getSportCurrentEvents = useCallback(async (headers) => {
 		try {
 			const upcomingEvents = await http.apiGet("/sport_events/current_week", headers);
 			return upcomingEvents;
@@ -233,9 +234,9 @@ const useHttp = () => {
 			}
 			throw error;
 		}
-	}
+	}, []);
 
-	async function getSportPastEvents(headers) {
+	const getSportPastEvents = useCallback(async (headers) => {
 		try {
 			const upcomingEvents = await http.apiGet("/sport_events/past", headers);
 			return upcomingEvents;
@@ -246,7 +247,7 @@ const useHttp = () => {
 			}
 			throw error;
 		}
-	}
+	}, []);
 
 	/* 
 	ВОЗМОЖНЫЕ МЕТРИКИ (metrics - array): 

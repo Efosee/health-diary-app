@@ -4,7 +4,11 @@
   background-color: var(--bg-color);
   padding: 8px 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	min-height: 81px;
+	display: flex;
+	align-items: center;
 }
+
 
 .list {
   display: flex;

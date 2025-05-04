@@ -12,7 +12,6 @@ const Auth = () => {
 	const [page, setPage] = useState('login')
 
 	return (
-
 		<Box sx={{
 			width: {
 				xs: "100vw",

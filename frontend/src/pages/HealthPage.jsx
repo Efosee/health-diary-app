@@ -1,5 +1,5 @@
 import Health from "../components/features/health/Health";
-import ProfileLayout from "../components/layout/ProfileLayout"
+import ProfileLayout from "../components/layout/ProfileLayout";
 
 const HealthPage = () => {
 

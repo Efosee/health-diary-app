@@ -12,7 +12,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 
 const LoginForm = (props) => {
 	const passwordRef = useRef();
-	const { login } = useAuth();
+	const { login, checkAdmin } = useAuth();
 
 	const handleLogin = (e) => {
 		e.preventDefault();
@@ -21,7 +21,8 @@ const LoginForm = (props) => {
 		const password = formData.get("password");
 		login(email, password).then(
 			response => console.log(response)
-		).catch(
+		).then(() => checkAdmin())
+		.catch(
 			(error) => {
 				if (error.status === 401){
 					// Можно сделать модальное окно
@@ -29,6 +30,7 @@ const LoginForm = (props) => {
 				}
 			}
 		);
+
 
 		e.target.reset();
 		passwordRef.current?.setValue("");

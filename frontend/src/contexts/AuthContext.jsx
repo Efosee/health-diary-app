@@ -1,6 +1,7 @@
 import { useContext, createContext, useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router";
 import http from "../api/http";
+
 const AuthContext = createContext();
 
 const ENDPOINT_TOKEN = "/auth/token";
@@ -8,7 +9,15 @@ const ENDPOINT_REFISTER = "/auth/register"
 
 export const AuthProvider = ({ children }) => {
 	const [token, setToken] = useState(localStorage.getItem("token") || undefined);
+	const [isAdmin, setIsAdmin] = useState(false);
+
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (isAdmin){
+			navigate("/sport-events")
+		}
+	}, [isAdmin]);
 
 	const handleLogin = useCallback(async (email, password) => {
 		try {
@@ -47,9 +56,22 @@ export const AuthProvider = ({ children }) => {
 		}
 	}, []);
 
+	const checkAdmin = useCallback(async () => {
+		try{
+			const userData = await http.apiGet("/users/me");
+			setIsAdmin(userData.is_admin);
+		} catch(error){
+			console.log(error.status);
+			if (error.status === 401){
+				logout();
+			}
+			throw error;
+		}
+	}, [])
+
 
 	return (
-		<AuthContext.Provider value={{ token, login: handleLogin, logout, register }}>
+		<AuthContext.Provider value={{ token, login: handleLogin, logout, register, isAdmin, checkAdmin }}>
 			{children}
 		</AuthContext.Provider>
 	)

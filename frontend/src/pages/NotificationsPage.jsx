@@ -1,13 +1,11 @@
-
+import Notification from "../components/features/notifications/Notifications";
+import Container from "../components/ui/Container/Container";
 const NotificationsPage = () => {
 
 	return (
-		<>
-
-			<div className="diary">
-				Тут будут уведомления
-			</div>
-		</>
+		<Container style={{alignItems: "stretch"}}>
+			<Notification />
+		</Container>
 	)
 }
 
