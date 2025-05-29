@@ -28,7 +28,7 @@ wheels/
 venv/
 .pytest_cache/
 .coverage
-prompt_bot.py
+backend/prompt_bot.py
 htmlcov/
 backend.txt
 frontend.txt

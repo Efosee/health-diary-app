@@ -144,7 +144,7 @@ const Health = memo(({ ...props }) => {
 						<Button
 							type="submit"
 							variant="contained">
-							Сохранить изменнения
+							Сохранить изменения
 						</Button>
 					</Box>
 				)

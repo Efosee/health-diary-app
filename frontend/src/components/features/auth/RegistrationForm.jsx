@@ -94,8 +94,8 @@ const RegistrationForm = () => {
 			<FormGroup sx={{
 				fontSize: "10px"
 			}}>
-				<FormControlLabel required control={<Checkbox name="personal_data_consent"/>} label="Подтверждение на обработку персональных данных" />
-				<FormControlLabel required control={<Checkbox name="health_data_consent"/>} label="Подтверждение на обработку и хранение данных о здоровье" />
+				<FormControlLabel required control={<Checkbox name="personal_data_consent"/>} label={<span>Подтверждение на обработку <a href='/docs/personal-data'>персональных данных</a></span>} />
+				<FormControlLabel required control={<Checkbox name="health_data_consent"/>} label={<span>Подтверждение на обработку и хранение <a href='/docs/health-data'>данных о здоровье</a></span>} />
 			</FormGroup>
 			<Button
 				type="submit"
