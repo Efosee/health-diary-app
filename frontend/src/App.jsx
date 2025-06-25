@@ -1,5 +1,6 @@
-import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router'
+
+import NewAnalyticsPage from './pages/NewAnalyticsPage';
 
 import PersonalDiaryPage from './pages/PersonalDiaryPage';
 import EventDiaryPage from './pages/EventDiaryPage';
@@ -24,10 +25,11 @@ function App() {
 		<Router>
 			<AuthProvider>
 				<Routes>
+					<Route path="/old-analytics" element={<AnalyticsPage/>} />
 					<Route path="/auth" element={<AuthPage />} />
 					<Route element={<PrivateRoute />}>
 						<Route path="/" element={<Nav />}>
-							<Route path='analytics' element={<AnalyticsPage />} />
+							<Route path='analytics' element={<NewAnalyticsPage />} />
 							<Route path="profile" element={<ProfilePage />} />
 							<Route element={<AuthRouter />}>
 								<Route index element={<PersonalDiaryPage />} /> {/* index для корневого пути */}

@@ -49,6 +49,9 @@ const Nav = () => {
 									<NavLink to="/sport-events" className={({ isActive }) => (isActive ? styles.active : '')}>
 										<span className={styles.diaryHeader}>СПОРТИВНЫЕ СОБЫТИЯ</span>
 									</NavLink>
+									<NavLink to="/analytics" className={({ isActive }) => (isActive ? styles.active : '')}>
+										<span className={styles.diaryHeader}>АНАЛИТИКА</span>
+									</NavLink>
 								</div>
 							) : (
 								<>

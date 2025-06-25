@@ -3,6 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import prepareDataForApi from "../utils/transformDataForApi";
 import { useParams } from "react-router";
 import { useCallback } from "react";
+import { updateDateTime } from "../utils/moscowTime";
 const useHttp = () => {
 	const { logout } = useAuth();
 	const { trainingId } = useParams();
@@ -318,6 +319,7 @@ const useHttp = () => {
 	}
 	*/
 	const getMetrics = useCallback(async (startDate, endDate, metrics, entry_type = "all", headers) => {
+		endDate = updateDateTime(endDate, 1).slice(0, 10);
 		const params = new URLSearchParams({ start_date: startDate, end_date: endDate });
 		metrics.forEach(metric => {
 			params.append("metrics", metric)

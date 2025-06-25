@@ -25,10 +25,10 @@ const SportEvent = () => {
 				flexDirection: "column",
 				gap: "35px"
 			}}>
-			<Typography sx={{
+			<Typography variant="h5" sx={{
 				textAlign: "center",
 				display: "block",
-				mb: "30px",
+				mb: "20px",
 				pt: "20px"
 			}}>
 				Создать запись на спортивное мероприятие

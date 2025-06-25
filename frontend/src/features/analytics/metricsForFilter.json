@@ -1,0 +1,62 @@
+[
+	{
+		"metric": "wellbeing_score",
+		"name": "Самочувствие"
+	},
+	{
+		"metric": "training_intensity",
+		"name": "Интенсивность тренировки"
+	},
+	{
+		"metric": "has_injury",
+		"name": "Наличие травм"
+	},
+	{
+		"metric": "injury_location",
+		"name": "Локация травмы"
+	},
+	{
+		"metric": "weight",
+		"name": "Вес"
+	},
+	{
+		"metric": "height",
+		"name": "Рост"
+	},
+	{
+		"metric": "bmi",
+		"name": "ИМТ"
+	},
+	{
+		"metric": "blood_pressure_sys",
+		"name": "Систолическое давление"
+	},
+	{
+		"metric": "blood_pressure_dia",
+		"name": "Диастолическое давление"
+	},
+	{
+		"metric": "food_score",
+		"name": "Оценка питания"
+	},
+	{
+		"metric": "temperature",
+		"name": "Температура"
+	},
+	{
+		"metric": "pulse",
+		"name": "Пульс"
+	},
+	{
+		"metric": "sleep_quality",
+		"name": "Качество сна"
+	},
+	{
+		"metric": "sleep_hours",
+		"name": "Часы сна"
+	},
+	{
+		"metric": "blood_sugar",
+		"name": "Уровень сахара в крови"
+	}
+]

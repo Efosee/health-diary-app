@@ -1,0 +1,14 @@
+[
+	{
+		"entry_type": "all",
+		"name": "Все"
+	},
+	{
+		"entry_type": "personal",
+		"name": "Личные"
+	},
+	{
+		"entry_type": "event",
+		"name": "Мепроприятий"
+	}
+]
