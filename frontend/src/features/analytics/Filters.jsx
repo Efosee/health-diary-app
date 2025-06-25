@@ -29,10 +29,16 @@ const reducer = (state, action) => {
 			return { ...state, "dateStart": action.payload }
 		case "dateEnd":
 			return { ...state, "dateEnd": action.payload }
-		case "numOfMetrics":
-			return { 
-				...state, "numOfMetrics": state.numOfMetrics + action.payload.change, "metrics": [...state.metrics, "wellbeing_score"]
-			}
+		// case "numOfMetrics":
+		// 	return { 
+		// 		...state, "numOfMetrics": state.numOfMetrics + action.payload.change, 
+		// 		"metrics": [...state.metrics, "wellbeing_score"]
+		// 	}
+		case "addMetric":
+			return {...state, "metrics": [...state.metrics, "wellbeing_score"]}
+		case "removeMetric":
+			const metrics = [...state.metrics].filter((_, i) => i != action.payload.index);
+			return {...state, "metrics": metrics}
 	}
 }
 
@@ -47,8 +53,8 @@ const Filters = memo(({ metricsData, setMetricsData }) => {
 		for (let i = 0; i < n; i++) {
 			const Icon = i + 1 === n ?
 			// Как вариант сделать делегирование событий на Box и убрать обработчики с каждой иконки
-				<Add color="success" fontSize="large" onClick={() => dispatch({ type: "numOfMetrics", payload: {change: 1, index: i} })} /> :
-				<Remove sx={{ color: "red" }} fontSize="large" onClick={() => dispatch({ type: "numOfMetrics", payload: {change: -1, index: i} })} />;
+				<Add color="success" fontSize="large" onClick={() => dispatch({ type: "addMetric", payload: {index: i} })} /> :
+				<Remove sx={{ color: "red" }} fontSize="large" onClick={() => dispatch({ type: "removeMetric", payload: {index: i} })} />;
 			arr.push(
 				<Box sx={{
 					display: "flex",
@@ -95,7 +101,7 @@ const Filters = memo(({ metricsData, setMetricsData }) => {
 				flexDirection: "column",
 				gap: "8px"
 			}}>
-				{renderMetricsFilter(state.numOfMetrics)}
+				{renderMetricsFilter(state.metrics.length)}
 			</Box>
 
 			<TextField

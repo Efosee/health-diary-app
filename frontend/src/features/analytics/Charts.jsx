@@ -7,14 +7,20 @@ import metricsForFilter from './metricsForFilter.json';
 const Charts = ({ metricsData }) => {
 	console.log("Charts Render!")
 	const [data, setData] = useState();
-	console.log(data)
+	console.log("Данные для отрисовки\n", data);
 	const loadData = async () => {
 		console.log(metricsData)
 		const { dateStart: startDate, dateEnd: endDate, metrics, entry_type } = metricsData;
 		try {
-			const data = await getMetrics(startDate, endDate, metrics, entry_type);
+			let data = await getMetrics(startDate, endDate, metrics, entry_type);
+			// TODO изменить данные с нечисловых в 1
 
-			setData([...data["personal"], ...data["event"]])
+			/* Если Object.keys(item.metrics).length === 0 то удалить элемент массива:
+			Удаляет объект из массива data если в объекте поле metrics пустое - {}
+			так как объект в массиве не имеет статистической значимости без какой-либо метрики*/
+			data = [...data["personal"], ...data["event"]].filter((item) => Object.keys(item.metrics).length !== 0);
+
+			setData(data);
 			return data;
 		} catch (error) {
 			throw error;
@@ -26,8 +32,35 @@ const Charts = ({ metricsData }) => {
 		loadData();
 	}, [metricsData]);
 
-	const Chart = metricsData.chart === "line" ? LineChart : BarChart;
-	const CharElement = metricsData.chart === "line" ? Line : Bar;
+	const isLineChart = metricsData.chart === "line";
+	const Chart = isLineChart ? LineChart : BarChart;
+	const CharElement = isLineChart ? Line : Bar;
+
+	// TODO Сделать отдельный компонент
+	const renderCharElements = (metricsData) => {
+		const arr = [];
+		const isLineChart = metricsData.chart === "line";
+		let props;
+		// Формирование props в зависимости от типа графика
+		if (isLineChart) {
+			props = {
+				type: "monotone",
+				connectNulls: true,
+				activeDot: { r: 5, strokeWidth: 2 }
+			}
+		} else {
+			props = {
+				activeBar: { stroke: 'red', strokeWidth: 2 }
+			}
+		}
+		// Добавление элементов графика в массив
+		for (const metric of metricsData.metrics) {
+			arr.push(
+				<CharElement {...props} name={metric} dataKey={(data) => data.metrics[metric]} />
+			);
+		}
+		return arr;
+	}
 
 	return (
 		<Box sx={{
@@ -40,11 +73,12 @@ const Charts = ({ metricsData }) => {
 						bottom: 30, // Чтобы поднять график -> чтобы были видны нижние подписи
 						top: 5, // Чтобы самая верхняя точка была полностью видна
 						right: 3, // Чтобы самая крайняя правая точка была полностью видна
-						left: -41 // Чтобы центровать график, сдвигаем влево
+						left: -5 // Чтобы центровать график, сдвигаем влево
 					}}
 				>
 					<CartesianGrid strokeDasharray="3 3" />
-					<XAxis dataKey={(data) => data.date.slice(8, 10) + "." + data.date.slice(5, 7)}
+					<XAxis
+						dataKey={(data) => data.date.slice(8, 10) + "." + data.date.slice(5, 7)}
 						tickSize={30}
 					/>
 					<YAxis />
@@ -62,16 +96,15 @@ const Charts = ({ metricsData }) => {
 						bottom: "0px",
 						left: "2px"
 					}}
-					formatter={(value) => {
-						for (const item of metricsForFilter) {
-							if (item.metric == value) {
-								return item.name
+						formatter={(value) => {
+							for (const item of metricsForFilter) {
+								if (item.metric == value) {
+									return item.name
+								}
 							}
-						}
-					}}
+						}}
 					/>
-					{/* TODO: 1. Сделать надо будет универсальнее строчку снизу, чтобы был не wellbeing_score, а данные, которые придут */}
-					<CharElement name={metricsData.metrics[0]} type="monotone" dataKey={(data) => data.metrics.wellbeing_score} />
+					{renderCharElements(metricsData)}
 				</Chart>
 			</ResponsiveContainer>
 		</Box>
