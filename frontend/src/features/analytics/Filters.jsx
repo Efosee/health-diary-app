@@ -13,13 +13,13 @@ const charts = [
 		chart: "bar",
 		name: "Столбчатый"
 	}
-]
+];
 
 const reducer = (state, action) => {
 	switch (action.type) {
 		case "metrics":
 			const newMetrics = [...state.metrics];
-			newMetrics[action.payload.index] = [action.payload.value];
+			newMetrics[action.payload.index] = action.payload.value;
 			return { ...state, "metrics": newMetrics }
 		case "entry_type":
 			return { ...state, "entry_type": action.payload }
@@ -50,11 +50,17 @@ const Filters = memo(({ metricsData, setMetricsData }) => {
 	// А если минус, то удалялось по индексу 
 	const renderMetricsFilter = (n) => {
 		const arr = [];
+		n = n > 4 ? 4: n;
+
 		for (let i = 0; i < n; i++) {
-			const Icon = i + 1 === n ?
+			let Icon;
 			// Как вариант сделать делегирование событий на Box и убрать обработчики с каждой иконки
-				<Add color="success" fontSize="large" onClick={() => dispatch({ type: "addMetric", payload: {index: i} })} /> :
-				<Remove sx={{ color: "red" }} fontSize="large" onClick={() => dispatch({ type: "removeMetric", payload: {index: i} })} />;
+			if (i + 1 === n && i + 1 !== 4){
+				Icon = <Add color="success" fontSize="large" onClick={() => dispatch({ type: "addMetric", payload: {index: i} })} />;
+			} else{
+				Icon = <Remove sx={{ color: "red" }} fontSize="large" onClick={() => dispatch({ type: "removeMetric", payload: {index: i} })} />;
+			}
+
 			arr.push(
 				<Box sx={{
 					display: "flex",
@@ -90,7 +96,7 @@ const Filters = memo(({ metricsData, setMetricsData }) => {
 	return (
 		<Box sx={{
 			display: 'grid',
-			gridTemplateColumns: "auto 90px auto auto auto",
+			gridTemplateColumns: "auto minmax(90px, auto) auto auto auto",
 			gridTemplateRows: "auto auto",
 			gap: "15px 10px",
 			marginTop: "30px",
