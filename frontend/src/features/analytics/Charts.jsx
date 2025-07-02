@@ -1,59 +1,11 @@
 import { LineChart, BarChart, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Line, Bar, CartesianGrid } from "recharts";
-import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import useHttp from "../../hooks/useHttp";
-import { useAuth } from "../../contexts/AuthContext";
 import metricsForFilter from './metricsForFilter.json';
 
-const chartColors = ["blue", "green", "tomato", "orange"]
+const chartColors = ["blue", "green", "tomato", "orange"];
 
-const Charts = ({ metricsData }) => {
+const Charts = ({ metricsData, data }) => {
 	console.log("Charts Render!")
-	const [data, setData] = useState();
-	const { isAdmin } = useAuth();
-	const { getMetrics, getAdminAggregatedMetrics, getAdminInjuriesByDay } = useHttp();
-	// console.log("Данные для отрисовки\n", data);
-
-	const loadData = async () => {
-		const { dateStart: startDate, dateEnd: endDate, metrics, entry_type } = metricsData;
-
-		try {
-			let data;
-			if (isAdmin && metrics.includes("has_injury")) {
-				// TODO доделать
-				data = await getAdminInjuriesByDay(startDate, endDate, entry_type);
-			} else if (isAdmin) {
-				console.log(metrics)
-				data = await getAdminAggregatedMetrics(startDate, endDate, metrics, entry_type);
-				const newData = [];
-				console.log(data)
-				for (const [key, value] of Object.entries(data)){
-					newData.push({date: key, metrics: value});
-				}
-				data = newData;
-			} else {
-				data = await getMetrics(startDate, endDate, metrics, entry_type);
-				data = [...(data["personal"] || []), ...(data["event"] || [])];
-			}
-			console.log(data)
-
-			/* Если Object.keys(item.metrics).length === 0 то удалить элемент массива:
-			Удаляет объект из массива data если в объекте поле metrics пустое - {}
-			так как объект в массиве не имеет статистической значимости без какой-либо метрики*/
-			data = data.filter((item) => Object.keys(item.metrics).length !== 0)
-				.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-			setData(data);
-			return data;
-		} catch (error) {
-			throw error;
-		}
-	}
-
-
-	useEffect(() => {
-		loadData();
-	}, [metricsData]);
 
 	const isLineChart = metricsData.chart === "line";
 	const Chart = isLineChart ? LineChart : BarChart;
@@ -73,7 +25,8 @@ const Charts = ({ metricsData }) => {
 			}
 		} else {
 			props = {
-				activeBar: { stroke: 'black', strokeWidth: 2 }
+				activeBar: { stroke: 'black', strokeWidth: 2 },
+				maxBarSize: 150
 			}
 		}
 		// Добавление элементов графика в массив
@@ -139,5 +92,7 @@ const Charts = ({ metricsData }) => {
 	)
 
 }
+
+
 
 export default Charts;
