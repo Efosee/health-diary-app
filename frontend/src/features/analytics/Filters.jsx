@@ -15,6 +15,8 @@ const charts = [
 	}
 ];
 
+const MAX_METRICS_FILTERS = 4;
+
 const reducer = (state, action) => {
 	switch (action.type) {
 		case "metrics":
@@ -50,12 +52,12 @@ const Filters = memo(({ metricsData, setMetricsData }) => {
 	// А если минус, то удалялось по индексу 
 	const renderMetricsFilter = (n) => {
 		const arr = [];
-		n = n > 4 ? 4: n;
+		n = n > MAX_METRICS_FILTERS ? MAX_METRICS_FILTERS: n;
 
 		for (let i = 0; i < n; i++) {
 			let Icon;
 			// Как вариант сделать делегирование событий на Box и убрать обработчики с каждой иконки
-			if (i + 1 === n && i + 1 !== 4){
+			if (i + 1 === n && i + 1 !== MAX_METRICS_FILTERS){
 				Icon = <Add color="success" fontSize="large" onClick={() => dispatch({ type: "addMetric", payload: {index: i} })} />;
 			} else{
 				Icon = <Remove sx={{ color: "red" }} fontSize="large" onClick={() => dispatch({ type: "removeMetric", payload: {index: i} })} />;

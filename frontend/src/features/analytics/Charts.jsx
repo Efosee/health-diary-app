@@ -2,7 +2,7 @@ import { LineChart, BarChart, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer
 import { Box } from "@mui/material";
 import metricsForFilter from './metricsForFilter.json';
 
-const chartColors = ["blue", "green", "tomato", "orange"];
+const CHART_COLORS = ["blue", "green", "tomato", "orange"];
 
 const Charts = ({ metricsData, data }) => {
 	console.log("Charts Render!")
@@ -11,7 +11,6 @@ const Charts = ({ metricsData, data }) => {
 	const Chart = isLineChart ? LineChart : BarChart;
 	const CharElement = isLineChart ? Line : Bar;
 
-	// TODO Сделать отдельный компонент
 	const renderCharElements = (metricsData) => {
 		const arr = [];
 		const isLineChart = metricsData.chart === "line";
@@ -32,7 +31,7 @@ const Charts = ({ metricsData, data }) => {
 		// Добавление элементов графика в массив
 		let colorIndex = 0;
 		for (const metric of metricsData.metrics) {
-			const color = isLineChart ? { stroke: chartColors[colorIndex] } : { fill: chartColors[colorIndex] }
+			const color = isLineChart ? { stroke: CHART_COLORS[colorIndex] } : { fill: CHART_COLORS[colorIndex] }
 			arr.push(
 				<CharElement {...props} name={metric}
 					dataKey={(data) => data.metrics[metric]}
