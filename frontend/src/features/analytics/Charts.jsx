@@ -1,8 +1,7 @@
 import { LineChart, BarChart, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Line, Bar, CartesianGrid } from "recharts";
 import { Box } from "@mui/material";
-import metricsForFilter from './metricsForFilter.json';
-
-const CHART_COLORS = ["blue", "green", "tomato", "orange"];
+import metricsForFilter from './constants/metricsForFilter.json';
+import { CHART_COLORS } from "./constants/chartConstants";
 
 const Charts = ({ metricsData, data }) => {
 	console.log("Charts Render!")

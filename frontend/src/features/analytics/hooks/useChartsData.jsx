@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
-import useHttp from "../../hooks/useHttp";
+import { useAuth } from "../../../contexts/AuthContext";
+import useHttp from "../../../hooks/useHttp";
 
 const useChartsData = (metricsData) => {
 
@@ -30,7 +30,7 @@ const useChartsData = (metricsData) => {
 	 * Объединяет объекты (в массиве) с одинаковой датой в один объект,
 	 * объединяя их метрики 
 	 * @param {Array<{ date: string, metrics: Object}>} data - Массив объектов с полями `date` и `metrics`
-	 * @returns 
+	 * @returns {Array<{ date: string, metrics: Object}>} 
 	 */
 	const mergeDataOnDate = (data) => {
 		const merged = {};

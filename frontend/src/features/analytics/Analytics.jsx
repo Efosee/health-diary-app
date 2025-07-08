@@ -1,9 +1,9 @@
 import { memo, useMemo, useState } from "react";
 import { getMoscowDateTimeISO, updateDateTime } from "../../utils/moscowTime";
-import useChartsData from "./useChartsData";
+import useChartsData from "./hooks/useChartsData";
 
 import Filters from "./Filters";
-import Charts from "./Charts";
+import Charts from "./constants/Charts";
 import { Box } from "@mui/material";
 import Container from "../../components/ui/Container/Container";
 
@@ -18,7 +18,7 @@ const Analytics = memo(() => {
 		dateEnd: dateEnd,
 		numOfMetrics: 1
 	});
-	const {data} = useChartsData(metricsData);
+	const { data } = useChartsData(metricsData);
 
 	return (
 		<Container>
@@ -30,7 +30,7 @@ const Analytics = memo(() => {
 				width: "100%"
 			}}>
 				<Filters metricsData={metricsData} setMetricsData={setMetricsData} />
-				<Charts metricsData={metricsData} data={data}/>
+				<Charts metricsData={metricsData} data={data} />
 			</Box>
 		</Container>
 	)

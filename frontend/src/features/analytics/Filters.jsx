@@ -1,21 +1,9 @@
 import { memo, useReducer } from "react";
 import { TextField, MenuItem, Box, Button } from "@mui/material";
-import metrics from "./metricsForFilter.json";
-import entry_type from './entryTypes.json';
+import metrics from "./constants/metricsForFilter.json";
+import entry_type from './constants/entryTypes.json';
 import { Add, Remove } from "@mui/icons-material";
-
-const charts = [
-	{
-		chart: "line",
-		name: "Линейный"
-	},
-	{
-		chart: "bar",
-		name: "Столбчатый"
-	}
-];
-
-const MAX_METRICS_FILTERS = 4;
+import { MAX_METRICS_FILTERS, CHART_OPTIONS } from "./constants/chartConstants";
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -31,11 +19,6 @@ const reducer = (state, action) => {
 			return { ...state, "dateStart": action.payload }
 		case "dateEnd":
 			return { ...state, "dateEnd": action.payload }
-		// case "numOfMetrics":
-		// 	return { 
-		// 		...state, "numOfMetrics": state.numOfMetrics + action.payload.change, 
-		// 		"metrics": [...state.metrics, "wellbeing_score"]
-		// 	}
 		case "addMetric":
 			return {...state, "metrics": [...state.metrics, "wellbeing_score"]}
 		case "removeMetric":
@@ -48,8 +31,7 @@ const Filters = memo(({ metricsData, setMetricsData }) => {
 	const [state, dispatch] = useReducer(reducer, metricsData);
 	console.log('Filters Render!');
 
-	//TODO: 2. Сделать так, чтобы при плюсе добавлялось в массив metrics еще одно значение последним по умолчанию самочувствие
-	// А если минус, то удалялось по индексу 
+	//TODO: Сделать отдельным копонентом
 	const renderMetricsFilter = (n) => {
 		const arr = [];
 		n = n > MAX_METRICS_FILTERS ? MAX_METRICS_FILTERS: n;
@@ -94,7 +76,6 @@ const Filters = memo(({ metricsData, setMetricsData }) => {
 		return arr;
 	}
 
-	// TODO: 3. Разобраться и пофиксить, почему надпись в 0 значении исчезла
 	return (
 		<Box sx={{
 			display: 'grid',
@@ -132,10 +113,10 @@ const Filters = memo(({ metricsData, setMetricsData }) => {
 				value={state.chart}
 				onChange={(e) => dispatch({ type: "chart", payload: e.target.value })}
 			>
-				{charts.map((item) => {
+				{CHART_OPTIONS.map((item) => {
 					return (
-						<MenuItem key={item.chart} value={item.chart}>
-							{item.name}
+						<MenuItem key={item.value} value={item.value}>
+							{item.label}
 						</MenuItem>)
 				})}
 			</TextField>
