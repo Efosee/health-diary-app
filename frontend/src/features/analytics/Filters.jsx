@@ -4,45 +4,46 @@ import metrics from "./constants/metricsForFilter.json";
 import entry_type from './constants/entryTypes.json';
 import { Add, Remove } from "@mui/icons-material";
 import { MAX_METRICS_FILTERS, CHART_OPTIONS } from "./constants/chartConstants";
+import { useAnalyticsFilters } from "./hooks/useAnalyticsFilters";
 
-const reducer = (state, action) => {
-	switch (action.type) {
-		case "metrics":
-			const newMetrics = [...state.metrics];
-			newMetrics[action.payload.index] = action.payload.value;
-			return { ...state, "metrics": newMetrics }
-		case "entry_type":
-			return { ...state, "entry_type": action.payload }
-		case "chart":
-			return { ...state, "chart": action.payload }
-		case "dateStart":
-			return { ...state, "dateStart": action.payload }
-		case "dateEnd":
-			return { ...state, "dateEnd": action.payload }
-		case "addMetric":
-			return {...state, "metrics": [...state.metrics, "wellbeing_score"]}
-		case "removeMetric":
-			const metrics = [...state.metrics].filter((_, i) => i != action.payload.index);
-			return {...state, "metrics": metrics}
-	}
-}
+// const reducer = (state, action) => {
+// 	switch (action.type) {
+// 		case "metrics":
+// 			const newMetrics = [...state.metrics];
+// 			newMetrics[action.payload.index] = action.payload.value;
+// 			return { ...state, "metrics": newMetrics }
+// 		case "entry_type":
+// 			return { ...state, "entry_type": action.payload }
+// 		case "chart":
+// 			return { ...state, "chart": action.payload }
+// 		case "dateStart":
+// 			return { ...state, "dateStart": action.payload }
+// 		case "dateEnd":
+// 			return { ...state, "dateEnd": action.payload }
+// 		case "addMetric":
+// 			return { ...state, "metrics": [...state.metrics, "wellbeing_score"] }
+// 		case "removeMetric":
+// 			const metrics = [...state.metrics].filter((_, i) => i != action.payload.index);
+// 			return { ...state, "metrics": metrics }
+// 	}
+// }
 
 const Filters = memo(({ metricsData, setMetricsData }) => {
-	const [state, dispatch] = useReducer(reducer, metricsData);
+	const { state, action } = useAnalyticsFilters(metricsData);
 	console.log('Filters Render!');
 
 	//TODO: Сделать отдельным копонентом
 	const renderMetricsFilter = (n) => {
 		const arr = [];
-		n = n > MAX_METRICS_FILTERS ? MAX_METRICS_FILTERS: n;
+		n = n > MAX_METRICS_FILTERS ? MAX_METRICS_FILTERS : n;
 
 		for (let i = 0; i < n; i++) {
 			let Icon;
 			// Как вариант сделать делегирование событий на Box и убрать обработчики с каждой иконки
-			if (i + 1 === n && i + 1 !== MAX_METRICS_FILTERS){
-				Icon = <Add color="success" fontSize="large" onClick={() => dispatch({ type: "addMetric", payload: {index: i} })} />;
-			} else{
-				Icon = <Remove sx={{ color: "red" }} fontSize="large" onClick={() => dispatch({ type: "removeMetric", payload: {index: i} })} />;
+			if (i + 1 === n && i + 1 !== MAX_METRICS_FILTERS) {
+				Icon = <Add color="success" fontSize="large" onClick={action.addMetric} />;
+			} else {
+				Icon = <Remove sx={{ color: "red" }} fontSize="large" onClick={() => action.removeMetric(i)} />;
 			}
 
 			arr.push(
@@ -50,14 +51,14 @@ const Filters = memo(({ metricsData, setMetricsData }) => {
 					display: "flex",
 					alignItems: "center"
 				}}
-				key={i}
+					key={i}
 				>
 					{Icon}
 					<TextField
 						select
 						label="Метрики"
 						value={state.metrics[i]}
-						onChange={(e) => dispatch({ type: "metrics", payload: {value: e.target.value, index: i} })}
+						onChange={(e) => action.setMetric(i, e.target.value)}
 						sx={{
 							flexGrow: 0
 						}}
@@ -97,7 +98,7 @@ const Filters = memo(({ metricsData, setMetricsData }) => {
 				select
 				label="Тип записи"
 				value={state.entry_type}
-				onChange={(e) => dispatch({ type: "entry_type", payload: e.target.value })}
+				onChange={(e) => action.setEntryType(e.target.value)}
 			>
 				{entry_type.map((item) => {
 					return (
@@ -111,7 +112,7 @@ const Filters = memo(({ metricsData, setMetricsData }) => {
 				select
 				label="Тип диаграммы"
 				value={state.chart}
-				onChange={(e) => dispatch({ type: "chart", payload: e.target.value })}
+				onChange={(e) => action.setChartType(e.target.value)}
 			>
 				{CHART_OPTIONS.map((item) => {
 					return (
@@ -124,7 +125,7 @@ const Filters = memo(({ metricsData, setMetricsData }) => {
 				label="Начало"
 				type="date"
 				value={state.dateStart}
-				onChange={(e) => dispatch({ type: "dateStart", payload: e.target.value })}
+				onChange={(e) => action.setDateStart(e.target.value)}
 				slotProps={{
 					inputLabel: {
 						shrink: true,
@@ -136,7 +137,7 @@ const Filters = memo(({ metricsData, setMetricsData }) => {
 				label="Конец"
 				type="date"
 				value={state.dateEnd}
-				onChange={(e) => dispatch({ type: "dateEnd", payload: e.target.value })}
+				onChange={(e) => action.setDateEnd(e.target.value)}
 				slotProps={{
 					inputLabel: {
 						shrink: true,
@@ -152,8 +153,6 @@ const Filters = memo(({ metricsData, setMetricsData }) => {
 					gridColumn: "1/6"
 				}}
 			>Применить</Button>
-
-
 		</Box>
 	);
 });

@@ -56,7 +56,7 @@ export const useAnalyticsFilters = (initialData) => {
 	}
 
 	const addMetric = () => {
-		dispatch({ type: "ADD_METRIC", payload: value });
+		dispatch({ type: "ADD_METRIC" });
 	}
 
 	const removeMetric = useCallback((index) => {
@@ -65,13 +65,14 @@ export const useAnalyticsFilters = (initialData) => {
 
 	return {
 		state,
-		setMetric,
-		setEntryType,
-		setChartType,
-		setDateStart,
-		setDateEnd,
-		addMetric,
-		removeMetric
+		action: {
+			setMetric,
+			setEntryType,
+			setChartType,
+			setDateStart,
+			setDateEnd,
+			addMetric,
+			removeMetric
+		}
 	}
-
-}
+} 

@@ -3,7 +3,7 @@ import { getMoscowDateTimeISO, updateDateTime } from "../../utils/moscowTime";
 import useChartsData from "./hooks/useChartsData";
 
 import Filters from "./Filters";
-import Charts from "./constants/Charts";
+import Charts from "./Charts";
 import { Box } from "@mui/material";
 import Container from "../../components/ui/Container/Container";
 
